@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Definierar schemat för en bokning
 const bookingSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-// User Schema
+// Definierar schemat för användare
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
             validator: function(v) {
                 return /@hamburgare\.se$/.test(v);
             },
-            message: props => `${props.value} is not a valid email! Email must end with @hamburgare.se`
+            message: props => `${props.value} Är inte giltigt! Ange en e-postadress med ändelsen @hamburgare.se`
         }
     },
     password: {
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Hash password
+// Hashar lösenordet innan det sparas
 userSchema.pre("save", async function(next) {
     try {
         if(this.isNew || this.isModified("password")) {
@@ -44,6 +44,7 @@ userSchema.pre("save", async function(next) {
     }
 });
 
+// Statisk metod för att registrera en ny användare
 userSchema.statics.register = async function (username, password) {
     try {
         const user = new this({ username, email, password});
@@ -54,7 +55,7 @@ userSchema.statics.register = async function (username, password) {
     }
 };
 
-// compare hashed password
+// Metod för att jämföra lösenord
 userSchema.methods.comparePassword = async function(password) {
     try {
         return await bcrypt.compare(password, this.password);
@@ -64,12 +65,11 @@ userSchema.methods.comparePassword = async function(password) {
     }
 }
 
-// Login user
+// Statisk metod för att logga in en användare
 userSchema.statics.login = async function (username, password) {
     try {
         const user = await this.findOne({ username });
         if (!user || !(await user.comparePassword(password))) {
-            // Samma felmeddelande oavsett anledning för att öka säkerheten
             throw new Error("Incorrect username or password.");
         }
         return user;
@@ -78,6 +78,6 @@ userSchema.statics.login = async function (username, password) {
     }
 }
 
-
+// Skapar och exporterar användarmodellen
 const User = mongoose.model("user", userSchema);
 module.exports = User;
