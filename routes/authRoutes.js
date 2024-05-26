@@ -22,6 +22,12 @@ router.post("/register", async (req, res) => {
         email = email ? email.replace(/(<([^>]+)>)/ig, '') : ''; // Sanera e-postadressen
         password = password ? password.replace(/(<([^>]+)>)/ig, '') : ''; // Sanera lösenordet 
 
+        if (!/@hamburgare\.se$/.test(sanitizedEmail)) {
+            const Feedback = document.getElementById('Feedback');
+            Feedback.textContent = 'E-postadressen måste ha domänen @hamburgare.se';
+            return;
+        }
+
         if (!username || !email || !password) {
             return res.status(400).json({ error: "Invalid input, send username, email and password" });
         }
