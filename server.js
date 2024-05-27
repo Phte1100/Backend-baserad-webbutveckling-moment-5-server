@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const authRoutes = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
-const menuRoutes = require("./routes/menuRoutes");  // Include menu routes
+const menuRoutes = require("./routes/menuRoutes");
 const User = require("./models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -16,7 +16,7 @@ app.use(cors());
 // routes
 app.use("/api", authRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/menu', menuRoutes);  // Use menu routes
+app.use('/api/menu', menuRoutes); 
 
 // Protected routes
 app.get("/api/protected", authenticateToken, (req, res) => {
@@ -41,16 +41,6 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
-
-app.get("/api/users", authenticateToken, async (req, res) => {
-    try {
-        const users = await User.find({});
-        res.json(users);
-    } catch (error) {
-        console.error("Error fetching users:", error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-});
 
 // Start application
 app.listen(port, () => {
