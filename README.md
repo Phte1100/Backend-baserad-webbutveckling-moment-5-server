@@ -6,6 +6,8 @@ För att skydda användarnas lösenord lagras de aldrig i klartext i databasen. 
 Användning av JWT-autentisering
 För att skydda känsliga områden av webbplatsen, som adminsidan, används JWT (JSON Web Token). När en användare loggar in, genereras en JWT-token som skickas tillbaka till klienten. Denna token används sedan för att verifiera användarens identitet vid efterföljande förfrågningar till servern. Detta säkerställer att endast autentiserade användare kan få tillgång till skyddade endpoints.
 
+https://backend-baserad-webbutveckling-moment-5.onrender.com/
+
 Registrering och login
 Metod       Ändpunkt        Beskrivning
 POST	    /api/register	Registrerar en ny användare. Kräver användarnamn, e-post och lösenord.
