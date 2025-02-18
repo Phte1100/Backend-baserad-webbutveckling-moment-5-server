@@ -67,14 +67,18 @@ router.post("/login", async (req, res) => {
 
 router.get("/validate", authenticateToken, async (req, res) => {
     try {
+        console.log("Decoded token innehåller ID:", req.user.id); // ✅ Debug-logga ID:t
+
         const user = await User.findById(req.user.id).select("-password");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
         res.json({ user });
     } catch (error) {
+        console.error("Error in /validate:", error); // ✅ Debug-logga eventuella fel
         res.status(500).json({ error: error.message });
     }
 });
+
 
 module.exports = router;
