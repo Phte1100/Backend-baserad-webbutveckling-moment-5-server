@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const authenticateToken = require("../middleware/authenticateToken");
 require("dotenv").config();
 
 // Connect to MongoDB
